@@ -11,6 +11,7 @@ use clap::Parser;
 use pager::Pager;
 
 fn main() -> Result<()> {
+    colored::control::set_override(true);
     Pager::new().setup();
     let client = reqwest::blocking::Client::new();
 
