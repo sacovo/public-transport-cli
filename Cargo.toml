@@ -1,6 +1,6 @@
 [package]
 name = "spt_cli"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 license = "MIT"
 keywords = ["cli", "public-transport"]
@@ -22,3 +22,4 @@ time = {version = "0.3.6", features = ["parsing", "serde"]}
 chrono = {version="0.4", features = ["serde"]}
 pad = "0.1.6"
 clap = { version = "3.0.10", features = ["derive"] }
+pager = "0.16.0"

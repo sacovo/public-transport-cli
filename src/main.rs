@@ -8,8 +8,10 @@ use anyhow::{Context, Result};
 
 use crate::{api::ConnectionResponse, request::ConnectionRequest};
 use clap::Parser;
+use pager::Pager;
 
 fn main() -> Result<()> {
+    Pager::new().setup();
     let client = reqwest::blocking::Client::new();
 
     let connection_request = ConnectionRequest::parse();
