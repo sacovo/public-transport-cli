@@ -1,21 +1,21 @@
 mod api;
+mod args;
 mod request;
 
-#[macro_use]
 extern crate derive_builder;
 
 use anyhow::{Context, Result};
 
-use crate::{api::ConnectionResponse, request::ConnectionRequest};
+use crate::{api::ConnectionResponse, args::Args, request::ConnectionRequest};
 use clap::Parser;
-use pager::Pager;
 
 fn main() -> Result<()> {
-    colored::control::set_override(true);
-    Pager::new().setup();
     let client = reqwest::blocking::Client::new();
 
-    let connection_request = ConnectionRequest::parse();
+    let args = Args::parse();
+    args.set_color();
+
+    let connection_request = ConnectionRequest::from(args);
 
     let response = client
         .get("http://transport.opendata.ch/v1/connections")
