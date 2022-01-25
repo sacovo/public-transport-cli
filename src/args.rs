@@ -4,7 +4,7 @@ use colored::control;
 #[derive(Debug, Parser)]
 #[clap(
     author = "Sandro Covo",
-    version = "0.1",
+    version = "0.1.3",
     about = "CLI tool to query connections for swiss public transport",
     long_about = None
 )]
