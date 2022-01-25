@@ -72,9 +72,25 @@ pub struct ConnectionResponse {
     from: Location,
     to: Location,
 }
+
+impl ConnectionResponse {
+    pub fn from_name(&self) -> &str {
+        &self.from.name()
+    }
+
+    pub fn to_name(&self) -> &str {
+        &self.to.name()
+    }
+}
+
+impl Location {
+    pub fn name(&self) -> &str {
+        &self.name
+    }
+}
 impl Display for Location {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.name)
+        write!(f, "{}", self.name())
     }
 }
 
@@ -132,7 +148,7 @@ impl Display for ConnectionResponse {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.write_str(&format!(
             "{}\n",
-            &format!("{} ⇒ {}", self.from.name, self.to.name).bold()
+            &format!("{} ⇒ {}", self.from_name(), self.to_name()).bold()
         ))?;
         f.write_str(&"".pad_to_width_with_char(60, '━'))?;
         for (i, connection) in self.connections.iter().enumerate() {
