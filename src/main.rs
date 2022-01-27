@@ -1,15 +1,17 @@
 mod api;
 mod args;
+mod config;
 mod request;
 
 extern crate derive_builder;
 
 use anyhow::Result;
 
-use crate::{api::ConnectionResponse, args::Args, request::ConnectionRequest};
+use crate::{api::ConnectionResponse, args::Args, config::load_config, request::ConnectionRequest};
 use clap::Parser;
 
 fn main() -> Result<()> {
+    load_config()?;
     let args = Args::parse();
     args.set_color();
 

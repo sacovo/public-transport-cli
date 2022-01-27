@@ -1,6 +1,8 @@
 use clap::Parser;
 use colored::control;
 
+use crate::config::CONFIG;
+
 #[derive(Debug, Parser)]
 #[clap(
     author = "Sandro Covo",
@@ -9,8 +11,9 @@ use colored::control;
     long_about = None
 )]
 pub struct Args {
-    pub from: String,
     pub to: String,
+    #[clap(short, long, help = "Starting point of journey, can be configured")]
+    pub from: Option<String>,
     pub via: Option<String>,
     #[clap(
         short,
@@ -30,13 +33,8 @@ pub struct Args {
         help = "If set the given time is treated as arrival time, otherwise as departure time"
     )]
     pub is_arrival_time: bool,
-    #[clap(
-        short,
-        long,
-        default_value_t = 4,
-        help = "Max. number of results, between 1 and 16"
-    )]
-    pub limit: usize,
+    #[clap(short, long, help = "Max. number of results, between 1 and 16")]
+    pub limit: Option<usize>,
     #[clap(short, long, help = "Always output colors")]
     color: bool,
     #[clap(short, long, help = "Never output colors")]
@@ -45,6 +43,10 @@ pub struct Args {
 
 impl Args {
     pub(crate) fn set_color(&self) -> () {
+        let config = CONFIG.get().expect("Error accessing config");
+        if let Some(color) = config.color {
+            control::set_override(color);
+        }
         if self.color {
             control::set_override(true);
         }

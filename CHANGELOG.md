@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- it is now possible to set defaults for limit, color and from in a config file
+### Changed
+- the from value is now an option, in order for it to be omitted and use a default omitted and use a default
+
 ## [0.1.4] - 2022-01-25
 ### Added
 - limit parameter in request

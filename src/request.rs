@@ -1,7 +1,7 @@
 use anyhow::{Context, Error};
 use serde::Serialize;
 
-use crate::{api::ConnectionResponse, args::Args};
+use crate::{api::ConnectionResponse, args::Args, config::CONFIG};
 
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -18,14 +18,22 @@ pub struct ConnectionRequest {
 
 impl From<Args> for ConnectionRequest {
     fn from(args: Args) -> Self {
+        let config = CONFIG.get().expect("Error accessing config");
         ConnectionRequest {
-            from: args.from,
+            from: args
+                .from
+                .as_ref()
+                .or(config.from.as_ref())
+                .expect(
+                    "No 'from' specified, either specify one with --from or in the config file.",
+                )
+                .clone(),
             to: args.to,
             via: args.via,
             date: args.date,
             time: args.time,
             is_arrival_time: if args.is_arrival_time { 1 } else { 0 },
-            limit: args.limit,
+            limit: args.limit.or(config.limit).unwrap_or(4),
             page: 0,
         }
     }
