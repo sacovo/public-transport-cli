@@ -6,7 +6,7 @@ use crate::config::CONFIG;
 #[derive(Debug, Parser)]
 #[clap(
     author = "Sandro Covo",
-    version = "0.1.4",
+    version = "0.1.5",
     about = "CLI tool to query connections for swiss public transport",
     long_about = None
 )]
