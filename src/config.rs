@@ -1,6 +1,7 @@
 use std::fs::File;
 
 use anyhow::Result;
+use if_chain::if_chain;
 use once_cell::sync::OnceCell;
 use serde::Deserialize;
 
@@ -15,20 +16,17 @@ pub struct Config {
 }
 
 pub fn load_config() -> Result<()> {
-    if let Some(config_dir) = dirs::config_dir() {
-        let config_path = config_dir.join("spt_cli.json");
-
-        if config_path.exists() {
-            let file = File::open(config_path)?;
-            let config: Config = serde_json::from_reader(file)?;
-
-            CONFIG.set(config).unwrap();
-        }
-    }
-
-    if let None = CONFIG.get() {
-        CONFIG.set(Config::default()).unwrap();
-    }
-
+    CONFIG
+        .set(if_chain! {
+            if let Some(config_dir) = dirs::config_dir();
+            let config_path = config_dir.join("spt_cli.json");
+            if config_path.exists();
+            then {
+                serde_json::from_reader(File::open(config_path)?)?
+            } else {
+                Config::default()
+            }
+        })
+        .unwrap();
     Ok(())
 }
