@@ -42,7 +42,7 @@ pub struct Args {
 }
 
 impl Args {
-    pub(crate) fn set_color(&self) -> () {
+    pub(crate) fn set_color(&self) {
         let config = CONFIG.get().expect("Error accessing config");
         if let Some(color) = config.color {
             control::set_override(color);

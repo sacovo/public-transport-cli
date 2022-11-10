@@ -32,7 +32,7 @@ impl From<Args> for ConnectionRequest {
             via: args.via,
             date: args.date,
             time: args.time,
-            is_arrival_time: if args.is_arrival_time { 1 } else { 0 },
+            is_arrival_time: usize::from(args.is_arrival_time),
             limit: args.limit.or(config.limit).unwrap_or(4),
             page: 0,
         }

@@ -75,11 +75,11 @@ pub struct ConnectionResponse {
 
 impl ConnectionResponse {
     pub fn from_name(&self) -> &str {
-        &self.from.name()
+        self.from.name()
     }
 
     pub fn to_name(&self) -> &str {
-        &self.to.name()
+        self.to.name()
     }
 }
 
@@ -116,13 +116,13 @@ fn print_checkpoint(checkpoint: &Checkpoint) -> ColoredString {
 impl Display for Section {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         if let Some(departure) = &self.departure {
-            write!(f, "{}\n", print_checkpoint(&departure))?;
+            writeln!(f, "{}", print_checkpoint(departure))?;
         };
         write!(f, "{}", "   ┃  \n".cyan())?;
         if let Some(arrival) = &self.arrival {
-            write!(f, "{}\n", print_checkpoint(&arrival))?;
+            writeln!(f, "{}", print_checkpoint(arrival))?;
         }
-        write!(f, "\n")
+        writeln!(f)
     }
 }
 
